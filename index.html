@@ -227,9 +227,27 @@
         .game-controls {
             margin-top: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             gap: 20px;
             flex-wrap: wrap;
+        }
+
+        .mobile-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        #shootBtn {
+            flex-grow: 1;
+            max-width: 200px;
+        }
+
+        #moveLeftBtn, #moveRightBtn {
+            font-size: 1.5rem;
+            padding: 5px 20px;
         }
 
         .game-btn {
@@ -253,6 +271,9 @@
             color: #00d2ff;
             font-size: 1.2rem;
             margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
         }
 
         .game-instructions {
@@ -311,10 +332,6 @@
                 gap: 15px;
                 padding: 15px;
             }
-            
-            #gameCanvas {
-                height: 400px;
-            }
         }
     </style>
 </head>
@@ -338,7 +355,7 @@
     <section class="hero">
         <h1 id="typing-title"></h1>
         <p>Desenvolvedor Web | Criador de Experiências Digitais | Futurista</p>
-        <button class="neon-btn" id="exploreBtn">Explorar Portfólio</button>
+        <a href="#about" class="neon-btn">Explorar Portfólio</a>
     </section>
 
     <!-- 📜 SEÇÃO SOBRE -->
@@ -354,10 +371,7 @@
                 <div class="terminal-line">// Meu Stack Tecnológico:</div>
                 <div class="terminal-line">JavaScript ES6+</div>
                 <div class="terminal-line">CSS3 / SASS / GSAP</div>
-                
-                
-            
-    
+            </div>
         </div>
     </section>
 
@@ -366,13 +380,19 @@
         <h2 class="section-title">DEMONSTRAÇÃO INTERATIVA</h2>
         <div class="game-container">
             <canvas id="gameCanvas" width="600" height="400"></canvas>
-            <div class="game-score">Pontuação: <span id="score">0</span></div>
-            <div class="game-controls">
-                <button class="game-btn" id="restartBtn">Reiniciar Jogo</button>
-                <div class="game-instructions">
-                    <p>Controles: <strong>← →</strong> para mover | <strong>Espaço</strong> para atirar</p>
-                </div>
+            <div class="game-score">
+                <span>Pontuação: <span id="score">0</span></span>
+                <span>Melhor Pontuação: <span id="highScore">0</span></span>
             </div>
+            <div class="game-controls">
+                <div class="mobile-controls">
+                    <button class="game-btn" id="moveLeftBtn">◀</button>
+                    <button class="game-btn" id="shootBtn">ATIRAR</button>
+                    <button class="game-btn" id="moveRightBtn">▶</button>
+                </div>
+                <button class="game-btn" id="restartBtn">Reiniciar Jogo</button>
+            </div>
+            <div class="game-instructions"><p>Use os botões ou as teclas <strong>← →</strong> para mover e <strong>Espaço</strong> para atirar.</p></div>
         </div>
     </section>
 
@@ -486,10 +506,12 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreElement = document.getElementById('score');
+        const highScoreElement = document.getElementById('highScore');
         const restartBtn = document.getElementById('restartBtn');
 
         // Configurações do jogo
         let score = 0;
+        let highScore = localStorage.getItem('gameHighScore') || 0;
         let gameOver = false;
         let animationId;
 
@@ -522,17 +544,63 @@
         // Event listeners
         window.addEventListener('keydown', (e) => {
             if (['ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+                e.preventDefault();
                 keys[e.key === ' ' ? 'space' : e.key] = true;
             }
         });
 
         window.addEventListener('keyup', (e) => {
             if (['ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+                e.preventDefault();
                 keys[e.key === ' ' ? 'space' : e.key] = false;
             }
         });
 
+        highScoreElement.textContent = highScore;
+
         restartBtn.addEventListener('click', resetGame);
+
+        // --- CONTROLES DE TOQUE E MOUSE ---
+        const moveLeftBtn = document.getElementById('moveLeftBtn');
+        const moveRightBtn = document.getElementById('moveRightBtn');
+        const shootBtn = document.getElementById('shootBtn');
+
+        // Esquerda
+        moveLeftBtn.addEventListener('mousedown', () => keys.ArrowLeft = true);
+        moveLeftBtn.addEventListener('mouseup', () => keys.ArrowLeft = false);
+        moveLeftBtn.addEventListener('mouseleave', () => keys.ArrowLeft = false);
+        moveLeftBtn.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            keys.ArrowLeft = true; 
+        });
+        moveLeftBtn.addEventListener('touchend', (e) => { 
+            e.preventDefault(); 
+            keys.ArrowLeft = false; 
+        });
+
+        // Direita
+        moveRightBtn.addEventListener('mousedown', () => keys.ArrowRight = true);
+        moveRightBtn.addEventListener('mouseup', () => keys.ArrowRight = false);
+        moveRightBtn.addEventListener('mouseleave', () => keys.ArrowRight = false);
+        moveRightBtn.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            keys.ArrowRight = true; 
+        });
+        moveRightBtn.addEventListener('touchend', (e) => { 
+            e.preventDefault(); 
+            keys.ArrowRight = false; 
+        });
+
+        // Atirar
+        function handleShoot() {
+            if (!gameOver) shoot();
+        }
+        shootBtn.addEventListener('click', handleShoot);
+        shootBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Impede que o evento de 'click' seja disparado em seguida
+            handleShoot();
+        });
+
 
         // Funções do jogo
         function drawShip() {
@@ -608,18 +676,25 @@
 
         function updateEnemies() {
             for (let i = enemies.length - 1; i >= 0; i--) {
-                enemies[i].y += enemies[i].speed;
+                const enemy = enemies[i];
+                enemy.y += enemy.speed;
                 
-                if (enemies[i].y > canvas.height) {
+                // Se o inimigo alcançar a parte inferior, remove-o e encerra o jogo
+                if (enemy.y > canvas.height) {
+                    gameOver = true;
                     enemies.splice(i, 1);
+                    continue;
                 }
                 
+                // Colisão com a nave (só se o jogo estiver ativo)
                 if (
-                    enemies[i].y + enemies[i].height > ship.y - ship.height / 2 &&
-                    enemies[i].x < ship.x + ship.width / 2 &&
-                    enemies[i].x + enemies[i].width > ship.x - ship.width / 2
+                    !gameOver &&
+                    enemy.y + enemy.height > ship.y - ship.height / 2 &&
+                    enemy.x < ship.x + ship.width / 2 &&
+                    enemy.x + enemy.width > ship.x - ship.width / 2
                 ) {
                     gameOver = true;
+                    enemies.splice(i, 1); // Remove o inimigo que colidiu
                 }
             }
         }
@@ -646,6 +721,14 @@
             }
         }
 
+        function checkHighScore() {
+            if (score > highScore) {
+                highScore = score;
+                highScoreElement.textContent = highScore;
+                localStorage.setItem('gameHighScore', highScore);
+            }
+        }
+
         function drawGameOver() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -659,6 +742,9 @@
         }
 
         function resetGame() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
             score = 0;
             scoreElement.textContent = score;
             gameOver = false;
@@ -666,38 +752,50 @@
             enemies.length = 0;
             enemySpawnRate = 60;
             ship.x = canvas.width / 2;
-            
-            if (!animationId) {
-                gameLoop();
-            }
+
+            gameLoop();
         }
 
         function gameLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
+
+            // Elementos que rodam continuamente para o fundo dinâmico
+            spawnEnemy();
+            updateEnemies();
+            updateBullets();
+            drawEnemies();
+            drawBullets();
+
             if (!gameOver) {
+                // Lógica do jogador ativo
                 updateShip();
-                updateBullets();
-                spawnEnemy();
-                updateEnemies();
                 checkCollisions();
-                
                 drawShip();
-                drawBullets();
-                drawEnemies();
-                
-                animationId = requestAnimationFrame(gameLoop);
             } else {
+                // Tela de Game Over sobre o fundo
+                checkHighScore();
                 drawGameOver();
             }
+
+            // Mantém a animação sempre rodando
+            animationId = requestAnimationFrame(gameLoop);
         }
 
         // Inicia o jogo
         resetGame();
 
-        // 🕹️ BOTÃO EXPLORAR
-        document.getElementById('exploreBtn').addEventListener('click', () => {
-            window.location.href = "#about";
+        // ROLAGEM SUAVE PARA ÂNCORAS
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
     </script>
 </body>
