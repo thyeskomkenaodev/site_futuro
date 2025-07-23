@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THYESKO MENÃO | Dev Web Futurista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 🔥 RESET & GLOBAL STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', 'Orbitron', sans-serif;
+            background: #000;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* 🌌 BACKGROUND HOLOGRÁFICO */
+        .holographic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 210, 255, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(58, 123, 213, 0.1) 0%, transparent 25%);
+            z-index: -2;
+        }
+
+        /* 🌠 EFEITO MATRIX RAIN */
+        #matrixRain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        /* 🚀 NAVEGAÇÃO FUTURISTA */
+        .cyber-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(10, 10, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 210, 255, 0.3);
+            z-index: 1000;
+        }
+
+        .cyber-nav .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            color: #00d2ff;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+        }
+
+        .cyber-nav .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .cyber-nav a {
+            color: #00d2ff;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .cyber-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00d2ff;
+            transition: width 0.3s;
+        }
+
+        .cyber-nav a:hover::after {
+            width: 100%;
+        }
+
+        /* 🌟 HEADER COM TEXTO DIGITANDO */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        /* 🕹️ BOTÃO NEON */
+        .neon-btn {
+            background: transparent;
+            color: #00d2ff;
+            border: 2px solid #00d2ff;
+            padding: 12px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            border-radius: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .neon-btn:hover {
+            background: #00d2ff;
+            color: #000;
+            box-shadow: 0 0 15px #00d2ff, 0 0 30px rgba(0, 210, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* 📜 SEÇÃO "SOBRE MIM" */
+        .about {
+            padding: 100px 20px;
+            background: rgba(5, 5, 15, 0.7);
+            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: #00d2ff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* 🖥️ TERMINAL DE CÓDIGO */
+        .code-terminal {
+            background: rgba(10, 20, 30, 0.8);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .terminal-line {
+            margin-bottom: 10px;
+            color: #00d2ff;
+        }
+
+        .terminal-line::before {
+            content: '> ';
+            color: #3a7bd5;
+        }
+
+        /* 🎮 SEÇÃO DO JOGO */
+        .game-section {
+            padding: 80px 20px;
+            background: rgba(10, 5, 20, 0.7);
+            text-align: center;
+            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+        }
+
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #gameCanvas {
+            border: 2px solid #00d2ff;
+            border-radius: 10px;
+            background: #000;
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+            width: 100%;
+        }
+
+        .game-controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mobile-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        #shootBtn {
+            flex-grow: 1;
+            max-width: 200px;
+        }
+
+        #moveLeftBtn, #moveRightBtn {
+            font-size: 1.5rem;
+            padding: 5px 20px;
+        }
+
+        .game-btn {
+            background: rgba(0, 210, 255, 0.2);
+            color: #00d2ff;
+            border: 1px solid #00d2ff;
+            padding: 10px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .game-btn:hover {
+            background: rgba(0, 210, 255, 0.4);
+            box-shadow: 0 0 10px #00d2ff;
+        }
+
+        .game-score {
+            font-family: 'Orbitron', sans-serif;
+            color: #00d2ff;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .game-instructions {
+            color: #3a7bd5;
+            margin-top: 10px;
+        }
+
+        /* 🛸 PROJETOS (CARDS 3D) */
+        .projects {
+            padding: 100px 20px;
+            background: rgba(5, 5, 15, 0.7);
+            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: rgba(20, 30, 50, 0.5);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.5s;
+            backdrop-filter: blur(5px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
+            border-color: #00d2ff;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #00d2ff;
+        }
+
+        /* 📱 RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .cyber-nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 🌠 BACKGROUND FUTURISTA -->
+    <div class="holographic-bg"></div>
+    <canvas id="matrixRain"></canvas>
+
+    <!-- 🚀 NAVBAR -->
+    <nav class="cyber-nav">
+        <div class="logo">THYESKO MENÃO</div>
+        <div class="nav-links">
+            <a href="#about">Sobre</a>
+            <a href="#game">Jogo</a>
+            <a href="#projects">Projetos</a>
+            <a href="#contact">Contato</a>
+        </div>
+    </nav>
+
+    <!-- 🌟 HERO SECTION -->
+    <section class="hero">
+        <h1 id="typing-title"></h1>
+        <p>Desenvolvedor Web | Criador de Experiências Digitais | Futurista</p>
+        <a href="#about" class="neon-btn">Explorar Portfólio</a>
+    </section>
+
+    <!-- 📜 SEÇÃO SOBRE -->
+    <section id="about" class="about">
+        <h2 class="section-title">SOBRE MIM</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Olá, eu sou <strong>Thyesko Menão</strong>, um desenvolvedor web especializado em criar experiências digitais imersivas e futuristas.</p>
+                <p>Minha paixão é combinar design inovador com tecnologia de ponta para construir projetos que impressionam.</p>
+                <p>Trabalho com <strong>React, Three.js, Node.js</strong> e outras tecnologias modernas para levar suas ideias ao próximo nível.</p>
+            </div>
+            <div class="code-terminal">
+                <div class="terminal-line">// Meu Stack Tecnológico:</div>
+                <div class="terminal-line">JavaScript ES6+</div>
+                <div class="terminal-line">CSS3 / SASS / GSAP</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🎮 SEÇÃO DO JOGO -->
+    <section id="game" class="game-section">
+        <h2 class="section-title">DEMONSTRAÇÃO INTERATIVA</h2>
+        <div class="game-container">
+            <canvas id="gameCanvas" width="600" height="400"></canvas>
+            <div class="game-score">
+                <span>Pontuação: <span id="score">0</span></span>
+                <span>Melhor Pontuação: <span id="highScore">0</span></span>
+            </div>
+            <div class="game-controls">
+                <div class="mobile-controls">
+                    <button class="game-btn" id="moveLeftBtn">◀</button>
+                    <button class="game-btn" id="shootBtn">ATIRAR</button>
+                    <button class="game-btn" id="moveRightBtn">▶</button>
+                </div>
+                <button class="game-btn" id="restartBtn">Reiniciar Jogo</button>
+            </div>
+            <div class="game-instructions"><p>Use os botões ou as teclas <strong>← →</strong> para mover e <strong>Espaço</strong> para atirar.</p></div>
+        </div>
+    </section>
+
+    <!-- 🛸 SEÇÃO DE PROJETOS -->
+    <section id="projects" class="projects">
+        <h2 class="section-title">MEUS PROJETOS</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>Portal Quântico</h3>
+                <p>Uma experiência WebGL que simula viagens dimensionais usando Three.js.</p>
+            </div>
+            <div class="project-card">
+                <h3>Neon Dashboard</h3>
+                <p>Painel administrativo com UI cyberpunk e visualização de dados em tempo real.</p>
+            </div>
+            <div class="project-card">
+                <h3>AI Music Generator</h3>
+                <p>Ferramenta que usa machine learning para criar músicas eletrônicas futuristas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 📞 RODAPÉ -->
+    <footer id="contact" style="text-align: center; padding: 50px 20px; background: rgba(0, 0, 0, 0.7);">
+        <h2 class="section-title">VAMOS CONVERSAR</h2>
+        <p style="margin-bottom: 30px;">Pronto para levar seu projeto ao futuro?</p>
+        <button class="neon-btn">Enviar Mensagem</button>
+        <div style="margin-top: 50px;">
+            <p>© 2025 THYESKO MENÃO | Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <!-- ⚡ SCRIPTS -->
+    <script>
+        // 🌟 EFEITO DE DIGITAÇÃO
+        const titles = [
+            "THYESKO MENÃO", 
+            "DESENVOLVEDOR WEB", 
+            "CRIADOR DO FUTURO",
+            "UX/UI FUTURISTA"
+        ];
+        const typingTitle = document.getElementById('typing-title');
+        let titleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+
+        function typeTitle() {
+            const currentTitle = titles[titleIndex];
+            
+            if (isDeleting) {
+                typingTitle.textContent = currentTitle.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50;
+            } else {
+                typingTitle.textContent = currentTitle.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 100;
+            }
+
+            if (!isDeleting && charIndex === currentTitle.length) {
+                isDeleting = true;
+                typingSpeed = 2000;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                titleIndex = (titleIndex + 1) % titles.length;
+                typingSpeed = 500;
+            }
+
+            setTimeout(typeTitle, typingSpeed);
+        }
+        setTimeout(typeTitle, 1000);
+
+        // 🌠 EFEITO MATRIX RAIN
+        const matrixCanvas = document.getElementById('matrixRain');
+        const ctxMatrix = matrixCanvas.getContext('2d');
+        
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+        
+        const chars = "01";
+        const fontSize = 16;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
+        
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * 100;
+        }
+        
+        function drawMatrix() {
+            ctxMatrix.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctxMatrix.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+            
+            ctxMatrix.fillStyle = '#00d2ff';
+            ctxMatrix.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctxMatrix.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 50);
+
+        // 🎮 JOGO DE NAVES
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const highScoreElement = document.getElementById('highScore');
+        const restartBtn = document.getElementById('restartBtn');
+
+        // Configurações do jogo
+        let score = 0;
+        let highScore = localStorage.getItem('gameHighScore') || 0;
+        let gameOver = false;
+        let animationId;
+
+        // Nave do jogador
+        const ship = {
+            x: canvas.width / 2,
+            y: canvas.height - 50,
+            width: 40,
+            height: 40,
+            speed: 8,
+            color: '#00d2ff'
+        };
+
+        // Tiros
+        const bullets = [];
+        const bulletSpeed = 10;
+
+        // Inimigos
+        const enemies = [];
+        const enemySize = 30;
+        let enemySpawnRate = 60;
+
+        // Controles
+        const keys = {
+            ArrowLeft: false,
+            ArrowRight: false,
+            space: false
+        };
+
+        // Event listeners
+        window.addEventListener('keydown', (e) => {
+            if (['ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+                e.preventDefault();
+                keys[e.key === ' ' ? 'space' : e.key] = true;
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (['ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+                e.preventDefault();
+                keys[e.key === ' ' ? 'space' : e.key] = false;
+            }
+        });
+
+        highScoreElement.textContent = highScore;
+
+        restartBtn.addEventListener('click', resetGame);
+
+        // --- CONTROLES DE TOQUE E MOUSE ---
+        const moveLeftBtn = document.getElementById('moveLeftBtn');
+        const moveRightBtn = document.getElementById('moveRightBtn');
+        const shootBtn = document.getElementById('shootBtn');
+
+        // Esquerda
+        moveLeftBtn.addEventListener('mousedown', () => keys.ArrowLeft = true);
+        moveLeftBtn.addEventListener('mouseup', () => keys.ArrowLeft = false);
+        moveLeftBtn.addEventListener('mouseleave', () => keys.ArrowLeft = false);
+        moveLeftBtn.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            keys.ArrowLeft = true; 
+        });
+        moveLeftBtn.addEventListener('touchend', (e) => { 
+            e.preventDefault(); 
+            keys.ArrowLeft = false; 
+        });
+
+        // Direita
+        moveRightBtn.addEventListener('mousedown', () => keys.ArrowRight = true);
+        moveRightBtn.addEventListener('mouseup', () => keys.ArrowRight = false);
+        moveRightBtn.addEventListener('mouseleave', () => keys.ArrowRight = false);
+        moveRightBtn.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            keys.ArrowRight = true; 
+        });
+        moveRightBtn.addEventListener('touchend', (e) => { 
+            e.preventDefault(); 
+            keys.ArrowRight = false; 
+        });
+
+        // Atirar
+        function handleShoot() {
+            if (!gameOver) shoot();
+        }
+        shootBtn.addEventListener('click', handleShoot);
+        shootBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Impede que o evento de 'click' seja disparado em seguida
+            handleShoot();
+        });
+
+
+        // Funções do jogo
+        function drawShip() {
+            ctx.fillStyle = ship.color;
+            ctx.beginPath();
+            ctx.moveTo(ship.x, ship.y - ship.height / 2);
+            ctx.lineTo(ship.x + ship.width / 2, ship.y + ship.height / 2);
+            ctx.lineTo(ship.x - ship.width / 2, ship.y + ship.height / 2);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function updateShip() {
+            if (keys.ArrowLeft && ship.x > ship.width / 2) {
+                ship.x -= ship.speed;
+            }
+            if (keys.ArrowRight && ship.x < canvas.width - ship.width / 2) {
+                ship.x += ship.speed;
+            }
+            if (keys.space && !gameOver) {
+                shoot();
+                keys.space = false;
+            }
+        }
+
+        function shoot() {
+            bullets.push({
+                x: ship.x,
+                y: ship.y - ship.height / 2,
+                width: 3,
+                height: 15,
+                speed: bulletSpeed
+            });
+        }
+
+        function drawBullets() {
+            ctx.fillStyle = '#3a7bd5';
+            bullets.forEach(bullet => {
+                ctx.fillRect(bullet.x - bullet.width / 2, bullet.y, bullet.width, bullet.height);
+            });
+        }
+
+        function updateBullets() {
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                bullets[i].y -= bullets[i].speed;
+                
+                if (bullets[i].y < 0) {
+                    bullets.splice(i, 1);
+                }
+            }
+        }
+
+        function spawnEnemy() {
+            if (Math.random() * enemySpawnRate < 1) {
+                enemies.push({
+                    x: Math.random() * (canvas.width - enemySize),
+                    y: -enemySize,
+                    width: enemySize,
+                    height: enemySize,
+                    speed: 2 + Math.random() * 3
+                });
+            }
+        }
+
+        function drawEnemies() {
+            ctx.fillStyle = '#e74c3c';
+            enemies.forEach(enemy => {
+                ctx.beginPath();
+                ctx.arc(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, enemy.width / 2, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function updateEnemies() {
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const enemy = enemies[i];
+                enemy.y += enemy.speed;
+                
+                // Se o inimigo alcançar a parte inferior, remove-o e encerra o jogo
+                if (enemy.y > canvas.height) {
+                    gameOver = true;
+                    enemies.splice(i, 1);
+                    continue;
+                }
+                
+                // Colisão com a nave (só se o jogo estiver ativo)
+                if (
+                    !gameOver &&
+                    enemy.y + enemy.height > ship.y - ship.height / 2 &&
+                    enemy.x < ship.x + ship.width / 2 &&
+                    enemy.x + enemy.width > ship.x - ship.width / 2
+                ) {
+                    gameOver = true;
+                    enemies.splice(i, 1); // Remove o inimigo que colidiu
+                }
+            }
+        }
+
+        function checkCollisions() {
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                for (let j = enemies.length - 1; j >= 0; j--) {
+                    if (
+                        bullets[i].x > enemies[j].x &&
+                        bullets[i].x < enemies[j].x + enemies[j].width &&
+                        bullets[i].y < enemies[j].y + enemies[j].height
+                    ) {
+                        bullets.splice(i, 1);
+                        enemies.splice(j, 1);
+                        score += 10;
+                        scoreElement.textContent = score;
+                        
+                        if (score % 50 === 0 && enemySpawnRate > 20) {
+                            enemySpawnRate -= 5;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        function checkHighScore() {
+            if (score > highScore) {
+                highScore = score;
+                highScoreElement.textContent = highScore;
+                localStorage.setItem('gameHighScore', highScore);
+            }
+        }
+
+        function drawGameOver() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00d2ff';
+            ctx.font = '36px Orbitron';
+            ctx.textAlign = 'center';
+            ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+            ctx.font = '24px Orbitron';
+            ctx.fillText(`Pontuação: ${score}`, canvas.width / 2, canvas.height / 2 + 40);
+        }
+
+        function resetGame() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            score = 0;
+            scoreElement.textContent = score;
+            gameOver = false;
+            bullets.length = 0;
+            enemies.length = 0;
+            enemySpawnRate = 60;
+            ship.x = canvas.width / 2;
+
+            gameLoop();
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Elementos que rodam continuamente para o fundo dinâmico
+            spawnEnemy();
+            updateEnemies();
+            updateBullets();
+            drawEnemies();
+            drawBullets();
+
+            if (!gameOver) {
+                // Lógica do jogador ativo
+                updateShip();
+                checkCollisions();
+                drawShip();
+            } else {
+                // Tela de Game Over sobre o fundo
+                checkHighScore();
+                drawGameOver();
+            }
+
+            // Mantém a animação sempre rodando
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        // Inicia o jogo
+        resetGame();
+
+        // ROLAGEM SUAVE PARA ÂNCORAS
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
