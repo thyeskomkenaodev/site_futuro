@@ -317,6 +317,11 @@
             color: #00d2ff;
         }
 
+        .projects-grid a {
+            text-decoration: none;
+            color: inherit;
+        }
+
         /* 📱 RESPONSIVIDADE */
         @media (max-width: 768px) {
             .hero h1 {
@@ -365,12 +370,15 @@
             <div class="about-text">
                 <p>Olá, eu sou <strong>Thyesko Menão</strong>, um desenvolvedor web especializado em criar experiências digitais imersivas e futuristas.</p>
                 <p>Minha paixão é combinar design inovador com tecnologia de ponta para construir projetos que impressionam.</p>
-                <p>Trabalho com <strong>React, Three.js, Node.js</strong> e outras tecnologias modernas para levar suas ideias ao próximo nível.</p>
+                <p>Trabalho com <strong>HTML, CSS e JavaScript</strong> e outras tecnologias modernas para levar suas ideias ao próximo nível.</p>
+                <p>cursando <strong>Desenvolvimento Web</strong></p>
+                <p>Escola britânica de artes criativas e tecnologias ( EBAC).</p>
             </div>
             <div class="code-terminal">
                 <div class="terminal-line">// Meu Stack Tecnológico:</div>
-                <div class="terminal-line">JavaScript ES6+</div>
-                <div class="terminal-line">CSS3 / SASS / GSAP</div>
+                <div class="terminal-line"> front-end: </div>
+                <div class="terminal-line"> css / html / JavaScript </div>
+
             </div>
         </div>
     </section>
@@ -400,18 +408,49 @@
     <section id="projects" class="projects">
         <h2 class="section-title">MEUS PROJETOS</h2>
         <div class="projects-grid">
-            <div class="project-card">
-                <h3>Portal Quântico</h3>
-                <p>Uma experiência WebGL que simula viagens dimensionais usando Three.js.</p>
-            </div>
-            <div class="project-card">
-                <h3>Neon Dashboard</h3>
-                <p>Painel administrativo com UI cyberpunk e visualização de dados em tempo real.</p>
-            </div>
-            <div class="project-card">
-                <h3>AI Music Generator</h3>
-                <p>Ferramenta que usa machine learning para criar músicas eletrônicas futuristas.</p>
-            </div>
+            <a href="https://thyeskomkenaodev.github.io/gestanimal_nardelli/" target="_blank" rel="noopener noreferrer">
+                <div class="project-card">
+                    <h3>Gestanimal Nardelli</h3>
+                    <p>Uma prévia do projeto Gestanimal Nardelli controle de gestação de animais.</p>
+                    <p>(Suino e Equino).</p>
+                </div>
+            </a>
+            <a href="https://thyeskomkenaodev.github.io/adega_carleto/" target="_blank" rel="noopener noreferrer">
+                <div class="project-card">
+                    <h3>Adega Carleto</h3>
+                    <p>Projeto de uma adega virtual com catálogo de drinks e sistema de pedido redirecionado ao whatsapp.</p>
+                </div>
+            </a>
+            <a href="https://thyeskomkenaodev.github.io/assistenciatecnica/" target="_blank" rel="noopener noreferrer">
+                <div class="project-card">
+                    <h3>landing page</h3>
+                    <p>Blekauty Tecnologia.</p>
+                </div>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <div class="project-card">
+                    <h3>Cyberpunk Cityscape</h3>
+                    <p>Gerador procedural de paisagens urbanas cyberpunk usando p5.js e WebGL.</p>
+                </div>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <div class="project-card">
+                    <h3>Assistente Virtual IA</h3>
+                    <p>Chatbot com personalidade futurista que responde a comandos de voz via Web Speech API.</p>
+                </div>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <div class="project-card">
+                    <h3>Interface Neural</h3>
+                    <p>Simulação de uma interface cérebro-computador com visualizações de dados neurais.</p>
+                </div>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <div class="project-card">
+                    <h3>Loja de Implantes Cibernéticos</h3>
+                    <p>E-commerce conceitual para uma loja de aprimoramentos cibernéticos, com design futurista.</p>
+                </div>
+            </a>
         </div>
     </section>
 
@@ -431,8 +470,7 @@
         const titles = [
             "THYESKO MENÃO", 
             "DESENVOLVEDOR WEB", 
-            "CRIADOR DO FUTURO",
-            "UX/UI FUTURISTA"
+            "CRIADOR DO FUTURO"
         ];
         const typingTitle = document.getElementById('typing-title');
         let titleIndex = 0;
