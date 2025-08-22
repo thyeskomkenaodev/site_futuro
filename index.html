@@ -559,18 +559,18 @@
             y: canvas.height - 50,
             width: 40,
             height: 40,
-            speed: 8,
+            speed: 10,
             color: '#00d2ff'
         };
 
         // Tiros
         const bullets = [];
-        const bulletSpeed = 10;
+        const bulletSpeed = 12;
 
         // Inimigos
         const enemies = [];
         const enemySize = 30;
-        let enemySpawnRate = 60;
+        let enemySpawnRate = 80;
 
         // Controles
         const keys = {
@@ -698,7 +698,7 @@
                     y: -enemySize,
                     width: enemySize,
                     height: enemySize,
-                    speed: 2 + Math.random() * 3
+                    speed: 1.5 + Math.random() * 2
                 });
             }
         }
@@ -750,8 +750,8 @@
                         score += 10;
                         scoreElement.textContent = score;
                         
-                        if (score % 50 === 0 && enemySpawnRate > 20) {
-                            enemySpawnRate -= 5;
+                        if (score > 0 && score % 100 === 0 && enemySpawnRate > 30) {
+                            enemySpawnRate -= 10;
                         }
                         break;
                     }
@@ -788,7 +788,7 @@
             gameOver = false;
             bullets.length = 0;
             enemies.length = 0;
-            enemySpawnRate = 60;
+            enemySpawnRate = 80;
             ship.x = canvas.width / 2;
 
             gameLoop();
